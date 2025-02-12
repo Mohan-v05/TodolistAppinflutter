@@ -31,39 +31,48 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   @override
-    Widget build(BuildContext context) {
-      return Scaffold(
-          appBar: AppBar(title: const Text("Login")), //app bar of the scaffold
-          body: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-children: [
-  TextField(
-    controller: _emailController,
-    decoration: const InputDecoration(
-      labelText: 'Email',
-      border: OutlineInputBorder(),
-    ),
-  ),
-  const SizedBox(height: 10),
-  TextField(
-    controller: _passwordController,
-    obscureText: true, // Hides password
-    decoration: const InputDecoration(
-      labelText: "Password",
-      border: OutlineInputBorder(),
-    ),
-  ),
-  const SizedBox(height: 20),
-  ElevatedButton(
-    onPressed: _login,
-    child: const Text("Login"),
-  ),
-],
-
-            ),
-          ));
-    }
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(title: const Text("Login")), //app bar of the scaffold
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.network(
+                'https://th.bing.com/th/id/OIP.MZYX66wI4kMfgrRO5tRpGQHaEK?w=304&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7',
+                height: 150,
+              ),
+              const SizedBox(height: 20),
+              TextField(
+                controller: _emailController,
+                decoration: const InputDecoration(
+                  labelText: 'Email',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+              const SizedBox(height: 10),
+              TextField(
+                controller: _passwordController,
+                obscureText: true, // Hides password
+                decoration: const InputDecoration(
+                  labelText: "Password",
+                  border: OutlineInputBorder(),
+                ),
+              ),
+              const SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    '/home',
+                    (route) => false, // Removes all previous routes
+                  );
+                },
+                child: const Text("Login"),
+              ),
+            ],
+          ),
+        ));
   }
-
+}
