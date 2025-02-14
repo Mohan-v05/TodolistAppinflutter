@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'auth_provider.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -10,10 +12,6 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  String? _errorMessage;
-
-  static const String _email = "A@gmail.com";
-  static const String _password = "1234";
 
   @override
   void dispose() {
@@ -22,29 +20,15 @@ class _LoginPageState extends State<LoginPage> {
     super.dispose();
   }
 
-  void _login() {
-    String email = _emailController.text.trim();
-    String password = _passwordController.text.trim();
-
-    if (email.isEmpty || password.isEmpty) {
-      setState(() {
-        _errorMessage = "Email and password are required";
-      });
-      return;
+  void _login(BuildContext context) {
+    final authProvider = Provider.of<AuthProvider>(context, listen: false);
+    authProvider.login(
+      _emailController.text.trim(),
+      _passwordController.text.trim(),
+    );
+    if (authProvider.isAuthenticated) {
+      Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
     }
-
-    if (email == _email && password == _password) {
-      _redirect();
-      debugPrint("Logging in with email: $email, password: $password");
-    } else {
-      setState(() {
-        _errorMessage = "Invalid email or password";
-      });
-    }
-  }
-
-  void _redirect() {
-    Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
   }
 
   @override
@@ -134,14 +118,21 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                     const SizedBox(height: 10),
-                    if (_errorMessage != null)
-                      Text(
-                        _errorMessage!,
-                        style: TextStyle(color: Colors.red),
-                      ),
+                    Consumer<AuthProvider>(
+                      builder: (context, authProvider, child) {
+                        if (authProvider.errorMessage != null) {
+                          return Text(
+                            authProvider.errorMessage!,
+                            style: TextStyle(color: Colors.red),
+                          );
+                        } else {
+                          return Container();
+                        }
+                      },
+                    ),
                     const SizedBox(height: 20),
                     ElevatedButton(
-                      onPressed: _login,
+                      onPressed: () => _login(context),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.blue,
                         padding: const EdgeInsets.symmetric(

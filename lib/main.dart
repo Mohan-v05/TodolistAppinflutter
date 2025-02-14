@@ -1,11 +1,20 @@
 import 'package:flutter/material.dart';
-import 'login.dart'; // Import the LoginScreen
-import 'home.dart'; // Import the HomeScreen
+import 'package:provider/provider.dart';
+import 'login.dart';
+import 'home.dart';
 import 'basicstructure.dart';
 import 'AdvancedWidget.dart';
+import 'auth_provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => AuthProvider()),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -21,14 +30,12 @@ class MyApp extends StatelessWidget {
             seedColor: const Color.fromARGB(255, 10, 2, 24)),
         useMaterial3: true,
       ),
-      initialRoute: '/', // Set the default screen
+      initialRoute: '/',
       routes: {
-        '/': (context) => const LoginPage(), // Default screen (Login)
-        '/home': (context) =>
-            const MyHomePage(title: 'Welcome Mohanakahnan'), // Home screen
+        '/': (context) => const LoginPage(),
+        '/home': (context) => const MyHomePage(title: 'Welcome Mohanakahnan'),
         '/basic': (context) => const BasicStructure(),
-        '/advancedwidget': (context) =>
-            const AdvancedStructure() // Basic structure screen
+        '/advancedwidget': (context) => const AdvancedStructure(),
       },
     );
   }
