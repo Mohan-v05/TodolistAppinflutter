@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'login.dart'; // Import the LoginScreen
 import 'home.dart'; // Import the HomeScreen
+import 'basicstructure.dart';
+import 'AdvancedWidget.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -23,6 +26,9 @@ class MyApp extends StatelessWidget {
         '/': (context) => const LoginPage(), // Default screen (Login)
         '/home': (context) =>
             const MyHomePage(title: 'Welcome Mohanakahnan'), // Home screen
+        '/basic': (context) => const BasicStructure(),
+        '/advancedwidget': (context) =>
+            const AdvancedStructure() // Basic structure screen
       },
     );
   }
